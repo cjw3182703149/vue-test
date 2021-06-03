@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <!--  迭代器 -->
+    <li v-for="item in items">
+        {{item.message}}
+    </li>
+    <li v-for="(item,index) in items">
+        {{item.message}}--{{index}}
+    </li>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            items: [
+                {message: "第一个"},
+                {message: "第二个"}
+            ]
+        }
+    })
+</script>
+</body>
+</html>
