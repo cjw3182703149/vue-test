@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../js/vue.js"></script>
+<body>
+<div id="app">
+    <!-- 这里使用自定义组件标签 shu是下面组件中的参数  v-bind:属性名="值"， v-bind就是绑定值-->
+    <cai v-for="item in items" v-bind:shu="item" ></cai>
+</div>
+<script>
+    // 定义一个vue组件
+    Vue.component("cai", {
+        props: ['shu'], // 参数列表，在使用这个标签时，使用v-bind:属性名="值"进行属性绑定
+        template: '<li>{{shu}}</li>'
+    });
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            items: ["java", "linux", "前端"]
+        }
+    })
+</script>
+</body>
+</html>
