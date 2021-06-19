@@ -1,0 +1,25 @@
+{
+  "name": "cai",
+  "url": "https://blog.kuangstudy.com",
+  "page": 1,
+  "isNonProfit": true,
+  "address": {
+    "street": "武林盟",
+    "city": "不知道的城市",
+    "country": "中国"
+  },
+  "links": [
+    {
+      "name": "bilbibi",
+      "url": "https://space.bilibili.com"
+    },
+    {
+      "name": "123",
+      "url": "https://space2.bilibili.com"
+    },
+    {
+      "name": "百度",
+      "url": "https://space2.bilibili.com"
+    }
+  ]
+}

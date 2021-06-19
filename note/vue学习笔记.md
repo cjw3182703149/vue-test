@@ -235,3 +235,59 @@
 
 ![image-20210615215918774](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210615215918774.png)
 
+跨域请求解决，在springboot的controller类中写@CrossOrigin
+
+```vue
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--  v-clock:解决闪烁的问题-->
+    <style>
+        [v-clock] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-clock>
+    <!-- {{message}} -->
+    {{info.address.city}}
+    {{info.address.country}}
+    {{info.name}}
+    <a v-bind:href="info.url">点击</a>
+
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                message: ""
+            },
+            data(){
+                return {
+                    // 请求的返回参数合适，必须和json字符串一样
+                    info: {
+                        name: null,
+                        address: {
+                            street: null,
+                            city: null,
+                            country: null
+                        }
+                    }
+                }
+            },
+            mounted() { // 钩子函数
+                axios.get('../data.json').then(response=>(this.info = response.data));
+                // 调用springboot的后端接口
+                // axios.get('http://localhost:8001/dept/get/1').then(response=>(this.message = response.data));
+            }
+        })
+    </script>
+</body>
+</html>
+```
+
