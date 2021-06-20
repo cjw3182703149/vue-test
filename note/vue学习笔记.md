@@ -284,9 +284,82 @@
                 axios.get('../data.json').then(response=>(this.info = response.data));
                 // 调用springboot的后端接口
                 // axios.get('http://localhost:8001/dept/get/1').then(response=>(this.message = response.data));
+                //axios.get('http://localhost:8001/dept/get/1').then(response=>{多行代码});
+                // 完整是axios请求
+                // axios({
+                //     url: `${backend}/person-info/findByUserName/find`,//请求的url
+                //     method: "get",//请求的类型
+                //     params: {
+                //         username //请求参数
+                //     },
+                //     withCredentials: true//是否认证
+                // }).then(res => {
+                //     this.userDetail = res.data.data;//对返回类型的操作
+                // }).catch(err => {  // 异常处理
+                //     console.log(err);
+                // })
+                
+                // axios({
+                //     url: `${backend}/chatroom/reject/add/chatroom/request`,
+                //     method: "post",
+                //     data: qs.stringify({
+                //         username, chatroomId, role
+                //     }),
+                //     withCredentials: true
+                // }).then(res => {
+                //     this.$message.info(res.data.message);
+                //     if (res.data.code === 200) {
+                //         setTimeout(() => { //该方法用于在指定的毫秒数后调用函数或计算表达式
+                //             location.reload();//类似于你浏览器上的刷新页面按钮
+                //         }, 1000);
+                //     }
+                // }).catch(err => {
+                //     console.log(err);
+                // });
             }
         })
     </script>
+</body>
+</html>
+```
+
+## 八、计算属性
+
+​	![image-20210620220539838](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210620220539838.png)
+
+![image-20210620221631965](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210620221631965.png)
+
+```vue
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../js/vue.js"></script>
+<body>
+    <div id="app">
+        <p>currentTime1: {{currentTime1()}}</p> <!-- 调用函数后面必须加() -->
+        <p>currentTime1: {{currentTime2}}</p>
+    </div>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            message: "hello"
+        },
+        methods: {
+            currentTime1 : function () {
+                return Date.now(); // 返回当前时间戳
+            }
+        },
+        computed: { // 计算属性，methods与computed方法名不能重名
+            currentTime2 : function () {
+                return Date.now();// 与methods重名，会调用methods方法
+            }
+        }
+    })
+</script>
 </body>
 </html>
 ```

@@ -44,6 +44,35 @@
                 axios.get('../data.json').then(response=>(this.info = response.data));
                 // 调用springboot的后端接口
                 // axios.get('http://localhost:8001/dept/get/1').then(response=>(this.message = response.data));
+                // axios({
+                //     url: `${backend}/person-info/findByUserName/find`,
+                //     method: "get",
+                //     params: {
+                //         username
+                //     },
+                //     withCredentials: true
+                // }).then(res => {
+                //     this.userDetail = res.data.data;
+                // }).catch(err => {
+                //     console.log(err);
+                // })
+                // axios({
+                //     url: `${backend}/chatroom/reject/add/chatroom/request`,
+                //     method: "post",
+                //     data: qs.stringify({
+                //         username, chatroomId, role
+                //     }),
+                //     withCredentials: true
+                // }).then(res => {
+                //     this.$message.info(res.data.message);
+                //     if (res.data.code === 200) {
+                //         setTimeout(() => {
+                //             location.reload();
+                //         }, 1000);
+                //     }
+                // }).catch(err => {
+                //     console.log(err);
+                // });
             }
         })
     </script>
