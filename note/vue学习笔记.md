@@ -128,6 +128,7 @@
 </head>
 <body>
 <div id="app">
+    <!-- v-on用于绑定事件的 -->
     <button v-on:click="sayHi" v-text="message"></button>
 </div>
 <script src="../js/vue.js"></script>
@@ -323,6 +324,177 @@
 </html>
 ```
 
+参考格式
+
+```vue
+<script>
+import {backend} from "@/js/network";
+import axios from "axios";
+import qs from "qs";
+export default {
+  data() {
+    // 数据处理
+    let validateChatroomName = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入聊天室名称'));
+      } else {
+        callback();
+      }
+    };
+    let validateChatroomType = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请选择聊天室类型'));
+      } else {
+        callback();
+      }
+    };
+    let validateChatroomContent = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入聊天室描述'));
+      } else {
+        callback();
+      }
+    };
+    // 返回的数据格式
+    return {
+      applies: [],
+      chatroomDetail: null,
+      ruleForm: {
+        name: '',
+        type: '',
+        content: ''
+      },
+      userDetail: null,
+      rules: {
+        name: [
+          { validator: validateChatroomName, trigger: 'blur' }
+        ],
+        type: [
+          { validator: validateChatroomType, trigger: 'blur' }
+        ],
+        content: [
+          { validator: validateChatroomContent, trigger: 'blur' }
+        ]
+      },
+      addChatroom(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            axios({
+              url: `${backend}/chatroom/add`,
+              method: "post",
+              data: {
+                name: this.ruleForm.name,
+                type: this.ruleForm.type,
+                content: this.ruleForm.content
+              },
+              headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+              },
+              withCredentials: true
+            }).then(res => {
+              this.$message.info(res.data);
+              setTimeout(() => {
+                location.reload();
+              }, 1000);
+            }).catch(err => {
+              console.log(err);
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+    }
+  },
+  methods: {
+    addUserToChatroom(username, chatroomId, role) {
+      axios({
+        url: `${backend}/chatroom/add/chatroom`,
+        method: "post",
+        data: qs.stringify({
+          username, chatroomId, role
+        }),
+        withCredentials: true
+      }).then(res => {
+        this.$message.info(res.data.message);
+        if (res.data.code === 200) {
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+    rejectAddUserToChatroom(username, chatroomId, role) {
+      axios({
+        url: `${backend}/chatroom/reject/add/chatroom/request`,
+        method: "post",
+        data: qs.stringify({
+          username, chatroomId, role
+        }),
+        withCredentials: true
+      }).then(res => {
+        this.$message.info(res.data.message);
+        if (res.data.code === 200) {
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+    showUserDetail(username) {
+      axios({
+        url: `${backend}/person-info/findByUserName/find`,
+        method: "get",
+        params: {
+          username
+        },
+        withCredentials: true
+      }).then(res => {
+        this.userDetail = res.data.data;
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    showChatroomDetail(chatroomId) {
+      axios({
+        url: `${backend}/chatroom/chatroom/detail`,
+        params: {id: chatroomId},
+        withCredentials: true
+      }).then(res => {
+        this.chatroomDetail = res.data.data;
+      })
+    }
+  },
+  // 创建vue时进行的操作
+  created() {
+    axios({
+      url: `${backend}/chatroom/add/chatroom/request/list`,
+      method: "get",
+      withCredentials: true,
+    }).then(res => {
+      console.log(res);
+      let i = 1;
+      res.data.data.forEach(e => {
+        e.id = i;
+        i++;
+      });
+      this.applies = res.data.data;
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+}
+</script>
+```
+
 ## 八、计算属性
 
 ​	![image-20210620220539838](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210620220539838.png)
@@ -359,6 +531,144 @@
             }
         }
     })
+</script>
+</body>
+</html>
+```
+
+## 九、插槽slot
+
+### 	9.1内容分发
+
+​	在vue.js中我们使用<slot>元素作为承载分发内容的出口，可以应用在组合组件的场景。
+
+```vue
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../js/vue.js"></script>
+<body>
+<div id="app">
+<!--    <p>列表书籍（下面的插槽就是为实现动态定义这些标签）</p>-->
+<!--    <ul>-->
+<!--        <li>Java</li>-->
+<!--        <li>linux</li>-->
+<!--        <li>python</li>-->
+<!--    </ul>-->
+    <todo>
+        <todo-title slot="todo-title" v-bind:title="title"></todo-title>
+        <to-items slot="todo-items" v-for="item in todoItems" v-bind:item="item"></to-items>
+    </todo>
+</div>
+<script>
+    // slot:插槽,可以理解成通配符,实现动态配置
+    Vue.component("todo", {
+       template: '<div>' +
+                        '<slot name="todo-title"></slot>' +
+                        '<ul>' +
+                            '<slot name="todo-items"></slot>' +
+                        '</ul>' +
+                 '</div>'
+    });
+    // 第一个插槽
+    Vue.component('todo-title',{
+        props: ['title'],
+        template: '<div>{{title}}</div>'
+    });
+    // 第二个插槽
+    Vue.component('to-items', {
+        props: ['item'],
+        template: '<li>{{item}}</li>'
+    });
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            title: "技术列表",
+            todoItems: ['我的那么', 'Java', 'python', '前端']
+        }
+    });
+</script>
+</body>
+</html>
+```
+
+### 9.2 自定义内容分发
+
+```vue
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../js/vue.js"></script>
+<body>
+<div id="app">
+<!--    <p>列表书籍（下面的插槽就是为实现动态定义这些标签）</p>-->
+<!--    <ul>-->
+<!--        <li>Java</li>-->
+<!--        <li>linux</li>-->
+<!--        <li>python</li>-->
+<!--    </ul>-->
+    <todo>
+        <todo-title slot="todo-title" v-bind:title="title"></todo-title>
+        <!-- 这里通过v-on:组件中方法名="vue中方法名"  来实现组件中方法调用vue中方法 -->
+        <to-items slot="todo-items" v-for="(item,index) in todoItems" v-bind:item="item" v-bind:index="index" v-on:remove="removeItems(index)">
+
+        </to-items>
+    </todo>
+</div>
+<script>
+    // slot:插槽,可以理解成通配符,实现动态配置
+    Vue.component("todo", {
+       template: '<div>' +
+                        '<slot name="todo-title"></slot>' +
+                        '<ul>' +
+                            '<slot name="todo-items"></slot>' +
+                        '</ul>' +
+                 '</div>'
+    });
+    // 第一个插槽
+    Vue.component('todo-title',{
+        props: ['title'],
+        template: '<div>{{title}}</div>'
+    });
+    // 第二个插槽
+    Vue.component('to-items', {
+        props: ['item', 'index'],
+        // 这里绑定了remove这个删除事件
+        template: '<li>{{item}}<button v-on:click="remove">删除</button></li>',
+        // 只能绑定当前组件的方法
+        methods: {
+            // 自定义组件分发
+            remove: function (index) {
+                // 调用vue绑定这个组件的方法
+                // 在子组件中需要向父组件传值处使用this.$emit("function",param);   
+                //其中function为子组件定义函数，param为需要传递参数
+                this.$emit('remove', index)
+            }
+        }
+    });
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            title: "技术列表",
+            todoItems: ['我的那么', 'Java', 'python', '前端']
+        },
+        methods: {
+            removeItems: function (index) {
+                // 从索引2开始删除3个元素，然后在添加两个元素
+                //this.todoItems.splice(2,3,'one', 'two');//有返回值的，返回值就是被删除的两个元素
+                //this.todoItems.splice(2,0,'one', 'two');// 只删除不添加
+                // 一次删除一个元素
+                this.todoItems.splice(index, 1);
+                console.log(this.todoItems);
+            }
+        }
+    });
 </script>
 </body>
 </html>

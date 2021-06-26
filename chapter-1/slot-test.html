@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../js/vue.js"></script>
+<body>
+<div id="app">
+    <!--    <p>列表书籍（下面的插槽就是为实现动态定义这些标签）</p>-->
+    <!--    <ul>-->
+    <!--        <li>Java</li>-->
+    <!--        <li>linux</li>-->
+    <!--        <li>python</li>-->
+    <!--    </ul>-->
+    <todo>
+        <todo-title slot="todo-title" v-bind:title="title"></todo-title>
+        <!-- 这里通过v-on:组件中方法名="vue中方法名"  来实现组件中方法调用vue中方法 -->
+        <to-items slot="todo-items" v-for="(item,index) in todoItems" v-bind:item="item" v-bind:index="index" v-on:remove="removeItems(index)">
+
+        </to-items>
+    </todo>
+</div>
+<script>
+    // slot:插槽,可以理解成通配符,实现动态配置
+    Vue.component("todo", {
+        template: '<div>' +
+            '<slot name="todo-title"></slot>' +
+            '<ul>' +
+            '<slot name="todo-items"></slot>' +
+            '</ul>' +
+            '</div>'
+    });
+    // 第一个插槽
+    Vue.component('todo-title',{
+        props: ['title'],
+        template: '<div>{{title}}</div>'
+    });
+    // 第二个插槽
+    Vue.component('to-items', {
+        props: ['item', 'index'],
+        // 这里绑定了remove这个删除事件
+        template: '<li>{{item}}<button v-on:click="remove">删除</button></li>',
+        // 只能绑定当前组件的方法
+        methods: {
+            // 自定义组件分发
+            remove: function (index) {
+                // 调用vue绑定这个组件的方法
+                // 在子组件中需要向父组件传值处使用this.$emit("function",param);   //其中function为子组件定义函数，param为需要传递参数
+                this.$emit('remove', index)
+            }
+        }
+    });
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            title: "技术列表",
+            todoItems: ['我的那么', 'Java', 'python', '前端']
+        },
+        methods: {
+            removeItems: function (index) {
+                // 从索引2开始删除3个元素，然后在添加两个元素
+                //this.todoItems.splice(2,3,'one', 'two');//有返回值的，返回值就是被删除的两个元素
+                //this.todoItems.splice(2,0,'one', 'two');// 只删除不添加
+                // 一次删除一个元素
+                this.todoItems.splice(index, 1);
+                console.log(this.todoItems);
+            }
+        }
+    });
+</script>
+</body>
+</html>
