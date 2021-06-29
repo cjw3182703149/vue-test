@@ -674,3 +674,43 @@ export default {
 </html>
 ```
 
+## 十、vue-cli
+
+![image-20210629210808646](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210629210808646.png)
+
+安装 npm install cnpm -g 淘宝镜像
+
+![image-20210629211916910](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210629211916910.png)
+
+查看创建方式
+
+![image-20210629212302352](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210629212302352.png)
+
+### 创建vue-cli项目
+
+（1）创建文件夹，并cd到对应文件夹下，执行vue init webpack myvue   其中myvue是项目名称
+
+![image-20210629213128136](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210629213128136.png)
+
+（2）执行npm install，然后他会根据package.json自动下载
+
+![image-20210629214556934](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210629214556934.png)
+
+（3）如果出现错误，npm audit fix进行修复
+
+（4）使用npm run dev进行运行
+
+（5）打开默认端口网页
+
+![image-20210629215346832](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210629215346832.png)
+
+
+
+
+
+
+
+
+
+
+
