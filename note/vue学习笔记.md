@@ -704,6 +704,106 @@ export default {
 
 ![image-20210629215346832](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210629215346832.png)
 
+### 什么是webpack？
+
+类似于Java中maven
+
+![image-20210702210830115](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210702210830115.png)
+
+![image-20210702211215666](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210702211215666.png)
+
+在main.js中使用下面的代码导入依赖
+
+![image-20210702211614417](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210702211614417.png)
+
+在App.js中暴露依赖
+
+![image-20210702211728005](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210702211728005.png)
+
+'use strict'严格规范，如果下面写错或者是不规范，会直接报错
+
+![image-20210702212310060](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210702212310060.png)
+
+```shell
+# 下载webpack
+npm install webpack -g
+npm install webpack-cli -g
+# 测试是否下载成功
+webpack -v
+webpack-cli -v
+```
+
+### 配置
+
+创建webpack.config.js配置文件
+
+- entry:入口文件，指定Webpack用哪个文件作为项目的入口
+- output:输出，指定webpack把处理完成的文件放置到指定路径
+- module:模块，用于处理各种类型的文件
+- plugins:插件,如：热更新、代码重用等
+- resolve:设置路径指向
+- watch:监听，用于设置文件改动后直接打包
+
+### 使用webpack
+
+（1）创建项目
+
+（2）创建一个名为modules的目录，用于放置js模块等资源文件
+
+（3）在modules下创建模块文件，如hello.js，用于编写js模块相关代码
+
+hello.js
+
+```js
+//暴露一个方法
+exports.sayHi = function () {
+    document.write("<h1>学习中</h1>")
+}
+```
+
+main.js
+
+```js
+var hello = require("./hello")
+hello.sayHi()
+```
+
+webpack.config.js
+
+```js
+module.exports = {
+    entry: './modules/main.js',//入口
+    output: {
+        filename: "./js/bundle.js"//输入的文件
+    }
+};
+```
+
+然后使用webpack命令进行打包，也可以使用webpack --watch进行监听打包，就是一旦有改变，他会自动在打包
+
+在index.html中使用已经打包的文件
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="dist/js/bundle.js"></script>
+</body>
+</html>
+```
+
+
+
+
+
+
+
+
+
 
 
 
