@@ -796,6 +796,136 @@ module.exports = {
 </html>
 ```
 
+### vue-router路由
+
+![image-20210704182018077](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210704182018077.png)
+
+使用 npm install vue-router --save-dev进行安装
+
+
+
+使用说明：
+
+（1）先创建两个vue文件
+
+content.vue
+
+```vue
+<template>
+  <h1>内容</h1>
+</template>
+
+<script>
+export default {
+  name: "content"
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+main.vue
+
+```vue
+<template>
+  <h1>首页</h1>
+</template>
+
+<script>
+export default {
+  name: "main"
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+(2)创建router包，并在包下创建index.js
+
+```js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import content from "../components/content";
+import main from "../components/main";
+//安装路由
+Vue.use(VueRouter);
+//配置导出路由
+export default new VueRouter({
+  routes: [
+    {
+      //路由路径
+      path: '/content',
+      name: 'content',
+      //跳转的组件
+      component: content
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: main
+    }
+  ]
+});
+```
+
+（3）在main.js文件中配置路由
+
+```js
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+Vue.config.productionTip = false
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})
+```
+
+（4）在App.vue中使用路由
+
+```vue
+<template>
+  <div id="app">
+    <h1>名字</h1>
+    <router-link to="/main">首页</router-link>
+    <router-link to="/content">内容页</router-link>
+<!--    页面展示-->
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+}
+</script>
+
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
+
+
+
+
+
 
 
 
