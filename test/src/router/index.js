@@ -1,0 +1,38 @@
+// import Vue from 'vue'
+// import Router from 'vue-router'
+// import HelloWorld from '@/components/HelloWorld'
+//
+// Vue.use(Router)
+//
+// export default new Router({
+//   routes: [
+//     {
+//       path: '/',
+//       name: 'HelloWorld',
+//       component: HelloWorld
+//     }
+//   ]
+// })
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import content from "../components/content";
+import main from "../components/main";
+//安装路由
+Vue.use(VueRouter);
+//配置导出路由
+export default new VueRouter({
+  routes: [
+    {
+      //路由路径
+      path: '/content',
+      name: 'content',
+      //跳转的组件
+      component: content
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: main
+    }
+  ]
+});
