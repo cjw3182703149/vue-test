@@ -17,6 +17,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import content from "../components/content";
 import main from "../components/main";
+import login from "../views/login";
+import List from "../views/List";
+import profile from "../views/profile";
+import home from "../views/home";
 //安装路由
 Vue.use(VueRouter);
 //配置导出路由
@@ -32,7 +36,30 @@ export default new VueRouter({
     {
       path: '/main',
       name: 'main',
-      component: main
+      component: main,
+      children: [
+        {path: '/profile:id', component: profile, props: true},
+        {path: '/list', component: List}
+      ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    {
+      path: '/List',
+      name: 'List',
+      component: List
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: profile
+    },
+    {
+      path: '/gohome',
+      redirect: '/profile'
     }
   ]
 });

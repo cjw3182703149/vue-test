@@ -928,21 +928,92 @@ export default {
 
 ![image-20210711232723512](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210711232723512.png)
 
+使用操作
+
+1、在main.js增加这一个操作
+
+```js
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+```
+
+2、后面就是配置路由
 
 
 
+#### 路由嵌套
+
+```js
+{
+  path: '/main',
+  name: 'main',
+  component: main,
+  children: [
+    {path: '/profile', component: profile},
+    {path: '/list', component: List}
+  ]
+},
+```
+
+#### 参数传递
+
+一、在params这里写参数列表
+
+注意这里to前面需要有:,name不能是  /名称
+
+```vue
+<router-link :to="{name: 'profile', params: {id:1}}">
+```
+
+二、路由配置，在后面增加 :参数列表
+
+```js
+children: [
+  {path: '/profile:id', component: profile},
+  {path: '/list', component: List}
+]
+```
+
+三、页面获取参数
+
+```vue
+<h1>profile {{$router.params.id}}</h1>
+```
 
 
 
+还可以把第二步中修改为
+
+```js
+{path: '/profile:id', component: profile, props: true},
+```
+
+然后第三步就可以
+
+```vue
+export default {
+  name: "profile",
+  props: ['id']
+}
+```
+
+```
+<h1>{{id}}</h1>
+```
 
 
 
+#### 重定向
 
+在路由中增加这个配置
 
-
-
-
-
+```js
+{
+  path: '/gohome',
+  redirect: '/main'
+}
+```
 
 
 
