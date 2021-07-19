@@ -41,6 +41,7 @@
           <el-dropdown-item>退出登陆</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <span>{{name}}</span>
     </el-header>
   <el-main>
     <router-view></router-view>
@@ -51,7 +52,8 @@
 
 <script>
 export default {
-  name: "main"
+  name: "main",
+  props: ['name']
 };
 </script>
 

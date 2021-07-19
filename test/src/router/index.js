@@ -21,10 +21,12 @@ import login from "../views/login";
 import List from "../views/List";
 import profile from "../views/profile";
 import home from "../views/home";
+import notfound from "../views/notfound";
 //安装路由
 Vue.use(VueRouter);
 //配置导出路由
 export default new VueRouter({
+  mode: 'history',
   routes: [
     {
       //路由路径
@@ -34,9 +36,10 @@ export default new VueRouter({
       component: content
     },
     {
-      path: '/main',
+      path: '/main/:name',
       name: 'main',
       component: main,
+      props: true,
       children: [
         {path: '/profile:id', component: profile, props: true},
         {path: '/list', component: List}
@@ -60,6 +63,10 @@ export default new VueRouter({
     {
       path: '/gohome',
       redirect: '/profile'
+    },
+    {
+      path: '*',
+      component: notfound
     }
   ]
 });

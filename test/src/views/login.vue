@@ -7,7 +7,7 @@
       <el-input type="password" v-model="loginForm.pass" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm('loginForm')">登陆</el-button>
+      <el-button type="primary" @click="submitForm('loginForm')" >登陆</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -41,21 +41,35 @@ export default {
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!');
-          this.$router.push("/content")
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
+    submitForm(loginForm) {
+      // this.$nextTick[loginForm].validate((valid) => {
+      //   alert(valid)
+      //   if (valid) {
+      //     alert('submit!');
+      //     this.$router.push("/main"+this.form.name)
+      //   } else {
+      //     console.log('error submit!!');
+      //     return false;
+      //   }
+      // });
+      //为表单绑定验证功能
+      if (this.loginForm.name!= '' && this.loginForm.pass != '')
+        this.$router.push("/main/"+this.loginForm.name);
+      // this.$refs[loginForm].validate((valid) => {
+      //   if (valid) {
+      //     alert('submit!');
+      //     this.$router.push("/main"+this.form.name)
+      //   } else {
+      //     console.log('error submit!!');
+      //     return false;
+      //   }
+      // });
+      // this.$router.push("/main");
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-  }
+  },
 }
 </script>
 

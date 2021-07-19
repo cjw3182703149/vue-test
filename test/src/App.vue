@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <h1>名字</h1>
-    <router-link to="/main">首页</router-link>
-    <router-link to="/content">内容页</router-link>
-    <router-link to="/login">登陆</router-link>
+<!--    <h1>名字</h1>-->
+<!--    <router-link to="/main">首页</router-link>-->
+<!--    <router-link to="/content">内容页</router-link>-->
+<!--    <router-link to="/login">登陆</router-link>-->
 <!--    页面展示-->
     <router-view></router-view>
   </div>

@@ -1017,3 +1017,137 @@ export default {
 
 
 
+其他方法
+
+路由配置
+
+```js
+{
+  path: '/main/:name',
+  name: 'main',
+  component: main,
+  props: true,
+  children: [
+    {path: '/profile:id', component: profile, props: true},
+    {path: '/list', component: List}
+  ]
+},
+```
+
+main.vue
+
+```vue
+ <span>{{name}}</span>
+<script>
+export default {
+  name: "main",
+  props: ['name']
+};
+```
+
+login.vue
+
+```vue
+this.$router.push("/main/"+this.loginForm.name);
+```
+
+![image-20210719144452080](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210719144452080.png)
+
+index.js
+
+```js
+mode: 'history',
+```
+
+
+
+#### 404处理
+
+增加一个notfound.vue
+
+```vue
+<template>
+  <h1>你的页面跑了</h1>
+</template>
+
+<script>
+export default {
+  name: "notfound"
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+路由配置
+
+```js
+{
+  path: '*',
+  component: notfound
+}
+```
+
+![image-20210719222638326](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210719222638326.png)
+
+```vue
+<script>
+export default {
+  name: "profile",
+  props: ['id'],
+  // 进入之前做的事情
+  beforeRouteEnter:(to,from,next)=>{
+    console.log("进入之前");
+    // next()必须得写，不然不能进入下一步
+    next();
+  },
+  beforeRouteLeave:(to,from,next)=>{
+
+  }
+}
+</script>
+```
+
+![image-20210719223320319](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210719223320319.png)
+
+在钩子函数中使用异步请求
+
+1、安装axios  cnpm install -s
+
+2、main.js中引用axios
+
+
+
+![image-20210719223348310](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20210719223348310.png)
+
+```vue
+<script>
+export default {
+  name: "profile",
+  props: ['id'],
+  // 进入之前做的事情
+  beforeRouteEnter:(to,from,next)=>{
+    console.log("进入之前");
+    // next()必须得写，不然不能进入下一步
+    next(vm => {
+      vm.getData();//进入路由前执行getData
+    });
+  },
+  beforeRouteLeave:(to,from,next)=>{
+
+  },
+  methods: {
+    getData: function (){
+      this.axios({
+        method: 'get',
+        url: 'http://localhost:8080/static/mock/data.json',
+      }).then(function (reponse){
+        console.log(reponse)
+      })
+    }
+  }
+}
+</script>
+```
